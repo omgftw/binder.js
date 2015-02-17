@@ -1,0 +1,23 @@
+<script type="text/javascript" src="jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="binder.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        test = binder.bindable();
+        test.bind("#output");
+        console.log(binder.bind("#input", test));
+        console.log(binder.bind('#input2', '#output2'));
+        test3 = binder.bindable();
+        test3.bind("#output3");
+        console.log(binder.bind("#input3", test3));
+    });
+</script>
+
+<input id="input" type="text" />
+<input id="output" type="text" />
+<br />
+<input id="input2" type="text" />
+<input id="output2" type="text" />
+<br />
+<input id="input3" type="text" />
+<input id="output3" type="text" />
