@@ -8,7 +8,7 @@
         $(document).ready(function () {
             firstName = binder.bindable("");
             lastName = binder.bindable("");
-            fullName = binder.combind([firstName, lastName], function () { return firstName.get() + " " + lastName.get() });
+            fullName = binder.combind([firstName, lastName], function () { return firstName.get() + " " + lastName.get(); });
 
             binder.bind("#firstName", firstName);
             binder.bind("#lastName", lastName);

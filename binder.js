@@ -13,7 +13,7 @@ binder.bindable = function (initValue) {
     bindable.set = function (value) {
         bindable.backingValue = value;
         bindable.updateBound();
-    }
+    };
 
     bindable.bind = function (target) {
         bindable.bound.push(target);
@@ -72,7 +72,7 @@ binder.bind = function (source, target) {
 };
 
 binder.combind = function (bindables, func) {
-    combind = {};
+    var combind = {};
     combind.bound = [];
 
     if (typeof func == "function" && bindables instanceof Array) {
@@ -114,7 +114,7 @@ binder.combind = function (bindables, func) {
             }
         };
 
-        combind.update()
+        combind.update();
     }
 
     combind.type = "combind";
