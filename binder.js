@@ -9,13 +9,13 @@ binder.bindable = function () {
     bindable.get = function () {
         return bindable.backingValue;
     };
-    
+
     bindable.set = function (value) {
         bindable.backingValue = value;
         bindable.updateBound();
     }
 
-    bindable.bind = function(target) {
+    bindable.bind = function (target) {
         bindable.bound.push(target);
     };
 
@@ -25,6 +25,9 @@ binder.bindable = function () {
             if (typeof target != "undefined") {
                 if (typeof target.type != "undefined" && target.type == "bindable") {
                     target.set(bindable.get());
+                }
+                else if (typeof target.type != "undefined" && target.type == "combind") {
+                    target.update();
                 }
                 else if (typeof target == "string") {
                     $(target).val(bindable.get());
@@ -40,14 +43,18 @@ binder.bindable = function () {
 
 binder.bind = function (source, target) {
     if (typeof source != "undefined" && typeof target != "undefined") {
-        if (typeof source.type != "undefined" && typeof source.type == "bindable" && typeof target.type != "undefined" && target.type == "bindable") {
-            target.bind(source);
+        if (typeof target.type != "undefined" && (source.type == "bindable" || source.type == "combind") && typeof target.type != "undefined" && (target.type == "bindable" || target.type == "combind")) {
+            source.bind(target);
             return true;
         }
-        else if (typeof source == "string" && typeof target.type != "undefined" && target.type == "bindable") {
+        else if (typeof source == "string" && typeof target.type != "undefined" && (target.type == "bindable" || target.type == "combind")) {
             $(source).on('change', function () {
                 target.set($(source).val());
             });
+            return true;
+        }
+        else if (typeof source.type != "undefined" && (source.type == "bindable" || source.type == "combind") && typeof target == "string") {
+            source.bind(target);
             return true;
         }
         else if (typeof source == "string" && typeof target == "string") {
@@ -58,4 +65,53 @@ binder.bind = function (source, target) {
         }
     }
     return false;
+};
+
+binder.combind = function (bindables, func) {
+    combind = {};
+    combind.bound = [];
+
+    if (typeof func == "function" && bindables instanceof Array) {
+        combind.internalValue = null;
+        combind.internalFunction = func;
+
+        combind.update = function () {
+            combind.internalValue = combind.internalFunction();
+            combind.updateBound();
+        };
+
+        for (var i = 0; i < bindables.length; i++) {
+            bindables[i].bind(combind);
+        }
+
+        combind.get = function () {
+            return combind.internalValue;
+        };
+
+        combind.bind = function (target) {
+            combind.bound.push(target);
+        };
+
+        combind.updateBound = function () {
+            for (var i = 0; i < combind.bound.length; i++) {
+                var target = combind.bound[i];
+                if (typeof target != "undefined") {
+                    if (typeof target.type != "undefined" && target.type == "bindable") {
+                        target.set(combind.get());
+                    }
+                    else if (typeof target.type != "undefined" && target.type == "combind") {
+                        target.update();
+                    }
+                    else if (typeof target == "string") {
+                        $(target).val(combind.get());
+                    }
+                }
+            }
+        };
+
+        combind.update()
+    }
+
+    combind.type = "combind";
+    return combind;
 };
