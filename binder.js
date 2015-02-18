@@ -78,6 +78,7 @@ binder.combind = function (bindables, func) {
     if (typeof func == "function" && bindables instanceof Array) {
         combind.internalValue = null;
         combind.internalFunction = func;
+        combind.sources = bindables;
 
         combind.update = function () {
             combind.internalValue = combind.internalFunction();
