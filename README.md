@@ -4,7 +4,7 @@ A light-weight data binding library
 
 Requires:
 	
-	JQuery
+	jQuery
 
 Usage:  
 
@@ -25,7 +25,7 @@ Commands:
 	binder.combind(ArrayOfBindableDependencies, function) //returns a combined bindable based on input parameters  
 		.get() //gets the current value of the combind.  
 		.bind(target); //binds the target to the current combind. The target will be updated whenever the current combind is updated.
-	binder.bind(source, target);  
+	binder.bind(source, target, eventTrigger); //eventTrigger is optional and only works for jQuery sources. it takes an jQuery.on() event string. Defaults to "change"; 
 
 Usage examples:  
 
@@ -57,6 +57,6 @@ Usage examples:
 	firstName = binder.bindable("");  
 	lastName = binder.bindable("");  
 	fullName = binder.combind([firstName, lastName], function () { return firstName.get() + " " + lastName.get() });  
-	binder.bind("#firstName", firstName);  
-	binder.bind("#lastName", lastName);  
+	binder.bind("#firstName", firstName, "input");  //The last parameter will cause it to bind on the "input" event
+	binder.bind("#lastName", lastName, "input");  //The last parameter will cause it to bind on the "input" event
 	binder.bind(fullName, "#fullName");  
