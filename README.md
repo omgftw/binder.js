@@ -2,6 +2,10 @@
 
 A light-weight data binding library  
 
+Requires:
+	
+	JQuery
+
 Usage:  
 
 	Create a bindable and bind it to another bindable or a jquery field.  
@@ -10,7 +14,7 @@ Usage:
 
 Issues:  
 
-	Currently only supports updating fields with jquery's .val() function.  
+	Currently only supports updating html fields with jquery's .val() function at the moment.  
 
 Commands:  
 
