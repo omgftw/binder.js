@@ -1,4 +1,4 @@
-# Binder  
+# binder.js  
 
 A light-weight data binding library  
 
