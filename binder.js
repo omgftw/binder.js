@@ -3,16 +3,18 @@ var binder = {};
 binder.bindable = function (initValue) {
 
     var bindable = {};
-    bindable.backingValue = null;
+    bindable.internalValue = null;
     bindable.bound = [];
 
     bindable.get = function () {
-        return bindable.backingValue;
+        return bindable.internalValue;
     };
 
     bindable.set = function (value) {
-        bindable.backingValue = value;
-        bindable.updateBound();
+        if (bindable.internalValue !== value) {
+            bindable.internalValue = value;
+            bindable.updateBound();
+        }
     };
 
     bindable.bind = function (target) {
@@ -45,14 +47,17 @@ binder.bindable = function (initValue) {
     return bindable;
 };
 
-binder.bind = function (source, target) {
+binder.bind = function (source, target, evtTrigger) {
     if (typeof source != "undefined" && typeof target != "undefined") {
+        if (typeof evtTrigger == "undefined") {
+            evtTrigger = "change";
+        }
         if (typeof target.type != "undefined" && (source.type == "bindable" || source.type == "combind") && typeof target.type != "undefined" && (target.type == "bindable" || target.type == "combind")) {
             source.bind(target);
             return true;
         }
         else if (typeof source == "string" && typeof target.type != "undefined" && (target.type == "bindable" || target.type == "combind")) {
-            $(source).on('change', function () {
+            $(source).on(evtTrigger, function () {
                 target.set($(source).val());
             });
             return true;
@@ -62,7 +67,7 @@ binder.bind = function (source, target) {
             return true;
         }
         else if (typeof source == "string" && typeof target == "string") {
-            $(source).on('change', function () {
+            $(source).on(evtTrigger, function () {
                 $(target).val($(source).val());
             });
             return true;
@@ -81,8 +86,11 @@ binder.combind = function (bindables, func) {
         combind.sources = bindables;
 
         combind.update = function () {
-            combind.internalValue = combind.internalFunction();
-            combind.updateBound();
+            var newVal = combind.internalFunction();
+            if (combind.internalValue !== newVal) {
+                combind.internalValue = newVal;
+                combind.updateBound();
+            }
         };
 
         for (var i = 0; i < bindables.length; i++) {
