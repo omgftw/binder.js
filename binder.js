@@ -1,6 +1,6 @@
 var binder = {};
 
-binder.bindable = function () {
+binder.bindable = function (initValue) {
 
     var bindable = {};
     bindable.backingValue = null;
@@ -37,6 +37,10 @@ binder.bindable = function () {
     };
 
     bindable.type = "bindable";
+
+    if (typeof initValue != "undefined") {
+        bindable.set(initValue);
+    }
 
     return bindable;
 };
