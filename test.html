@@ -10,8 +10,8 @@
             lastName = binder.bindable("");
             fullName = binder.combind([firstName, lastName], function () { return firstName.get() + " " + lastName.get(); });
 
-            binder.bind("#firstName", firstName);
-            binder.bind("#lastName", lastName);
+            binder.bind("#firstName", firstName, "input");
+            binder.bind("#lastName", lastName, "input");
             binder.bind(fullName, "#fullName");
         });
     </script>
