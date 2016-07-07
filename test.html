@@ -13,6 +13,7 @@
             binder.bind("#firstName", firstName, "input");
             binder.bind("#lastName", lastName, "input");
             binder.bind(fullName, "#fullName");
+            binder.bind(fullName, "#fullNameDisplay")
         });
     </script>
 
@@ -37,5 +38,6 @@
     <div class="field">
         <div class="labelDiv">Full Name:</div><input type="text" id="fullName" readonly /><br />
     </div>
+    <div id="fullNameDisplay"></div>
 </body>
 </html>
