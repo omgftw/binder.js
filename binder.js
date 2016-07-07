@@ -68,7 +68,12 @@ binder.bind = function (source, target, evtTrigger) {
         }
         else if (typeof source == "string" && typeof target == "string") {
             $(source).on(evtTrigger, function () {
-                $(target).val($(source).val());
+                var target = $(target)
+                if (target[0].value === undefined) {
+                    target.html($(source).val());  
+                } else {
+                    target.val($(source).val());
+                }
             });
             return true;
         }
@@ -116,7 +121,12 @@ binder.combind = function (bindables, func) {
                         target.update();
                     }
                     else if (typeof target == "string") {
-                        $(target).val(combind.get());
+                        var target = $(target)
+                        if (target[0].value === undefined) {
+                            target.html(combind.get());  
+                        } else {
+                            target.val(combind.get());
+                        }
                     }
                 }
             }
