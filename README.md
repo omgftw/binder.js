@@ -14,7 +14,7 @@ Usage:
 
 Issues:  
 
-	Currently only supports updating html fields with jquery's .val() function at the moment.  
+	Currently only supports updating html fields with jquery's .val() function.  
 
 Commands:  
 
